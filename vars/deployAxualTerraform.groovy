@@ -13,8 +13,11 @@ def call(String cloud_credentials_id='') {
             }
             stage('Plan') {
                 steps {
-                    sh 'terraform -chdir=./test plan -out test.plan -destroy'
+                    sh 'terraform -chdir=./test plan -out test.plan'
                 }
+            }
+            stage('Deploy approval'){
+                input "Deploy to environment?"
             }
             stage('Apply plan') {
                     steps {
