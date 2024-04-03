@@ -17,7 +17,9 @@ def call(String cloud_credentials_id='') {
                 }
             }
             stage('Deploy approval'){
-                input "Deploy to environment?"
+                steps {
+                    input "Deploy to environment?"
+                }
             }
             stage('Apply plan') {
                     steps {
