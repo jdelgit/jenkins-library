@@ -4,7 +4,7 @@ def call(String name = 'human') {
         stages {
             stage('Initial stage') {
                 steps {
-                    sh 'echo Hello ${name}'
+                    echo "Hello ${name}"
                 }
             }
         }
