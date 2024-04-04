@@ -1,6 +1,6 @@
 
 def call(String cloudCredentialsID='') {
-    String validationScriptPath = libraryResource('example/validation.py')
+    def validationScriptPath = libraryResource('example/validation.py').getRemote()
 
     pipeline {
         environment {
