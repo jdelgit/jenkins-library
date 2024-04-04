@@ -10,7 +10,7 @@ def call(String cloudCredentialsID='') {
         stages {
             stage('Validate & Deploy: Ontw') {
                 steps {
-                    sh "python3 ${libraryResource('resources/example/validation.py')} test"
+                    sh "python3 ${libraryResource('example/validation.py')} test"
                 }
             }
 
