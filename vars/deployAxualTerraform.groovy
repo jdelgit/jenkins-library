@@ -1,6 +1,6 @@
 
 def call(String cloudCredentialsID='') {
-    String validationScriptPath = libraryResource('/com/test/python/validation.py')
+    // String validationScriptPath = libraryResource('/com/test/python/validation.py')
 
     pipeline {
         environment {
@@ -10,7 +10,7 @@ def call(String cloudCredentialsID='') {
         stages {
             stage('Validate & Deploy: Ontw') {
                 steps {
-                    sh "python3 ${validationScriptPath} test"
+                    sh "python3 ${libraryResource('/com/test/python/validation.py')} test"
                 }
             }
 
