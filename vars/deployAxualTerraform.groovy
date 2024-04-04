@@ -7,7 +7,8 @@ def call(String cloudCredentialsID='') {
         stages {
             stage('Validate & Deploy: Ontw') {
                 steps {
-                    sh 'python3 resources/example/validation.py test'
+                    def validationScriptPath = libraryResource('resources/example/validation.py').getRemote()
+                    sh "python3 ${validationScriptPath} test"
                 }
             }
 
