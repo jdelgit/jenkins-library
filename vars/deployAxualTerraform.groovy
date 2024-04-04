@@ -7,12 +7,13 @@ def call(String cloudCredentialsID='') {
         stages {
             stage('Validate & Deploy: Ontw') {
                 steps {
-                    echo 'Check out Axual module'
+                    python3 .'./resources/example/validation.py' 'test'
                 }
             }
 
             // stage('Initialize') {
             //     steps {
+                    // echo 'Check out Axual module'
             //         sh 'git clone https://github.com/jdelgit/terraform-modules.git'
             //         sh 'terraform -chdir=./test init --backend-config backend.conf'
             //     }
