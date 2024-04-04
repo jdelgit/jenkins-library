@@ -7,7 +7,7 @@ def call(String cloudCredentialsID='') {
         stages {
             stage('Validate & Deploy: Ontw') {
                 steps {
-                    python3 .'./resources/example/validation.py' 'test'
+                    sh python3 .'./resources/example/validation.py' 'test'
                 }
             }
 
