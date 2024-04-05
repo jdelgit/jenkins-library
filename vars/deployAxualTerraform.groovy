@@ -10,7 +10,7 @@ def call(String cloudCredentialsID='') {
             stage('Validate & Deploy: Ontw') {
                 steps {
                     writeFile(file: 'validation.py', text: validationScriptContent)
-                    python3 'validation.py test'
+                    sh 'python3 validation.py test'
                 }
             }
 
