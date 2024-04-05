@@ -40,6 +40,9 @@ def validate_conf(deployment_env):
             if len(key_data) != 2:
                 print("Invalid key. Must be a .tfstate file inside your team's folder")
                 return False
+            else:
+                # Check repo being used, name must be same as bucket folder
+                pass
         else:
             print("key not defined")
             return False
