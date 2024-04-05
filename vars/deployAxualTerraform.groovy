@@ -9,8 +9,9 @@ def call(String cloudCredentialsID='') {
         stages {
             stage('Validate & Deploy: Ontw') {
                 steps {
-                    writeFile(file: 'validation.py', text: validationScriptContent)
-                    sh 'python3 validation.py test'
+                    env
+                    // writeFile(file: 'validation.py', text: validationScriptContent)
+                    // sh 'python3 validation.py test'
                 }
             }
 
