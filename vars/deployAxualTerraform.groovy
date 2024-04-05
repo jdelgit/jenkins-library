@@ -1,7 +1,6 @@
 
 def call(String cloudCredentialsID='') {
-    def validationScriptPath = libraryResource('example/validation.py').getRemote()
-
+    def validationScriptContent = libraryResource('example/validation.py')
     pipeline {
         environment {
             ARM = credentials("${cloudCredentialsID}")
@@ -10,7 +9,8 @@ def call(String cloudCredentialsID='') {
         stages {
             stage('Validate & Deploy: Ontw') {
                 steps {
-                    sh "python3 ${validationScriptPath} test"
+                    writeFile(file: 'validation.py', text: validationScriptContent)
+                    python3 "validation.py test"
                 }
             }
 
