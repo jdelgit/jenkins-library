@@ -3,6 +3,7 @@ from os.path import exists
 
 PROJECT_BUCKET = "terraform-bucket"
 AWS_REGION = "eu-central-1"
+DEPLOYABLE_ENVIRONMENTS = ["Dev","Test","Prod"]
 
 def parse_conf(conf_path):
     with open(conf_path) as fh:
@@ -17,41 +18,43 @@ def parse_conf(conf_path):
 
     return conf_data
 
+def parse_team_name(repo_url):
+    if repo_url:
+        tokens = repo_url.split("/")
+        # check team name
 
-def validate_conf(deployment_env):
-    conf_file_path = f"{deployment_env}/backend.conf"
-    data = parse_conf(conf_file_path)
+
+def validate_conf(environment):
+    conf_file_path = f"{environment}/backend.conf"
+    conf_data = parse_conf(conf_file_path)
     # Check bucket name
-    if "bucket" in data:
-        if data["bucket"]:
-            if data["bucket"] != PROJECT_BUCKET:
-                return False
-        else:
-            print(f"Bucket should be {PROJECT_BUCKET}")
+    if conf_data.get('bucket'):
+        if conf_data["bucket"] != PROJECT_BUCKET:
             return False
     else:
-        # Missing bucket definition
         print(f"Bucket should be {PROJECT_BUCKET}")
         return False
     # Check key, must be in a team directory
-    if "key" in data:
-        if data["key"]:
-            key_data = data["key"].split("/")
-            if len(key_data) != 2:
-                print("Invalid key. Must be a .tfstate file inside your team's folder")
-                return False
-            else:
-                # Check repo being used, name must be same as bucket folder
-                pass
-        else:
-            print("key not defined")
+    if conf_data.get('key'):
+        key_data = conf_data["key"].split("/")
+        if len(key_data) != 2:
+            print("Invalid key. Must be a .tfstate file inside your team's folder")
             return False
+        else:
+            # Check repo being used, name must be same as bucket folder
+            team_name = parse_team_name(repo_url)
+            if team_name:
+                # do check
+                if key_data[0] != team_name:
+                    return False
+            else:
+                return False
     else:
         print("key not defined")
         return False
     # check region
-    if "region" in data:
-        if data["region"] != AWS_REGION:
+    if conf_data.get('region'):
+        if conf_data["region"] != AWS_REGION:
             print(f"Region should be {AWS_REGION}")
             return False
     else:
@@ -59,15 +62,15 @@ def validate_conf(deployment_env):
         return False
     return True
 
-if __name__ == "__main__":
-    deployment_env = argv[1]
-    deployment_repo = argv[2]
 
-    print(f"{deployment_repo}")
-    conf_file_path = f"{deployment_env}/backend.conf"
+if __name__ == "__main__":
+    environment = argv[1]
+    repo_url = argv[2]
+
+    conf_file_path = f"{environment}/backend.conf"
     if exists(conf_file_path):
         # continue validation
-        valid = validate_conf(deployment_env)
+        valid = validate_conf(environment, repo_url)
         if not valid:
             print("Invalid conf file")
             exit(1)
