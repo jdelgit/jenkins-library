@@ -1,5 +1,5 @@
 
-def call(String cloudCredentialsID='') {
+void call(String cloudCredentialsID='') {
     String validationScriptContent = libraryResource('example/validation.py')
     pipeline {
         environment {
