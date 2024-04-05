@@ -58,7 +58,9 @@ def validate_conf(deployment_env):
 
 if __name__ == "__main__":
     deployment_env = argv[1]
+    deployment_repo = argv[2]
 
+    print(f"{deployment_repo}")
     conf_file_path = f"{deployment_env}/backend.conf"
     if exists(conf_file_path):
         # continue validation
